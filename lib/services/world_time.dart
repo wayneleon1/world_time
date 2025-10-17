@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 class WorldTime {
   String location; // location name for the UI
@@ -41,7 +42,7 @@ class WorldTime {
       final data = jsonDecode(response.body);
       final datetime = DateTime.parse(data['currentLocalTime']);
 
-      time = datetime.toString();
+      time = DateFormat.jm().format(datetime);
     } catch (e) {
       print('Error getting time: $e');
       time = 'Could not fetch time data';
