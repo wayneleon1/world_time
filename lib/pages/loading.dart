@@ -14,7 +14,7 @@ class _LoadingState extends State<Loading> {
     WorldTime instance = WorldTime(
       location: "Berlin",
       flag: "germany.png",
-      url: "Europe/Berlin",
+      url: "America/New_York",
     );
     await instance.getTime();
     Navigator.pushReplacementNamed(
@@ -24,6 +24,7 @@ class _LoadingState extends State<Loading> {
         'location': instance.location,
         'flag': instance.flag,
         'time': instance.time,
+        'isDayTime': instance.isDayTime,
       },
     );
   }
