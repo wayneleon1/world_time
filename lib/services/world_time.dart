@@ -9,42 +9,42 @@ class WorldTime {
 
   WorldTime({required this.location, required this.flag, required this.url});
 
-  Future<void> getTime() async {
-    // make the request
-    Response response = await get(
-      Uri.parse('https://worldtimeapi.org/api/timezone/$url'),
-    );
-    Map data = jsonDecode(response.body);
-
-    // get properties from data
-    String datetime = data['datetime'];
-    String offset = data['utc_offset'].substring(1, 3);
-
-    // create DateTime Object
-    DateTime now = DateTime.parse(datetime);
-    now = now.add(Duration(hours: int.parse(offset)));
-
-    // Set the time property
-    time = now.toString();
-  }
-
   // Future<void> getTime() async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('https://timeapi.io/api/TimeZone/zone?timeZone=$url'),
-  //     );
+  //   // make the request
+  //   Response response = await get(
+  //     Uri.parse('https://worldtimeapi.org/api/timezone/$url'),
+  //   );
+  //   Map data = jsonDecode(response.body);
 
-  //     if (response.statusCode != 200) {
-  //       throw Exception('Failed to get time');
-  //     }
+  //   // get properties from data
+  //   String datetime = data['datetime'];
+  //   String offset = data['utc_offset'].substring(1, 3);
 
-  //     final data = jsonDecode(response.body);
-  //     final datetime = DateTime.parse(data['currentLocalTime']);
+  //   // create DateTime Object
+  //   DateTime now = DateTime.parse(datetime);
+  //   now = now.add(Duration(hours: int.parse(offset)));
 
-  //     time = datetime.toString();
-  //   } catch (e) {
-  //     print('Error getting time: $e');
-  //     time = 'Could not fetch time data';
-  //   }
+  //   // Set the time property
+  //   time = now.toString();
   // }
+
+  Future<void> getTime() async {
+    try {
+      final response = await get(
+        Uri.parse('https://timeapi.io/api/TimeZone/zone?timeZone=$url'),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to get time');
+      }
+
+      final data = jsonDecode(response.body);
+      final datetime = DateTime.parse(data['currentLocalTime']);
+
+      time = datetime.toString();
+    } catch (e) {
+      print('Error getting time: $e');
+      time = 'Could not fetch time data';
+    }
+  }
 }
